@@ -1,0 +1,8 @@
+package com.rebecca.mymoviereview.model;
+
+public enum Genres {
+
+    AZIONE, COMMEDIA, DRAMMATICO, FANTASCIENZA, HORROR, THRILLER, FANTASY, AVVENTURA,
+    ANIMAZIONE, MUSICAL, ANIME, ROMANTICO, DOCUMENTARIO
+
+}
