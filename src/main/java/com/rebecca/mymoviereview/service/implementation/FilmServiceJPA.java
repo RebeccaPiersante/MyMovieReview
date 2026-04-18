@@ -23,8 +23,7 @@ public class FilmServiceJPA implements FilmService {
 
     @Override
     public List<Film> findAllFilm() {
-        List<Film> films = repository.findAll();
-        return films;
+        return repository.findAll();
     }
 
     @Override
