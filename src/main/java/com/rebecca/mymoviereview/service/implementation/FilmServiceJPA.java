@@ -57,4 +57,19 @@ public class FilmServiceJPA implements FilmService {
         create.setId(null);
         return repository.save(create);
     }
+
+    @Override
+    public List<Film> findFilmByTitle(String title) {
+        return repository.findFilmByTitle(title);
+    }
+
+    @Override
+    public List<Film> findByDirector(String director) {
+        return repository.findByDirector(director);
+    }
+
+    @Override
+    public List<Film> findByGenre(String genre) {
+        return repository.findByGenre(genre);
+    }
 }
