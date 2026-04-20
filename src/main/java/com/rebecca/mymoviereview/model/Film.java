@@ -33,7 +33,10 @@ public class Film {
     @Column(name = "date_of_publication")
     private LocalDate dateOfPublication;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST, //se il regista è nuovo (senza ID), viene salvato nel DB insieme al film
+            CascadeType.MERGE    //se il regista esiste (ha un ID), nel db viene aggiornato il legame
+    })
     @JoinTable(
             //nome tabella nel db
             name = "film_directors",
@@ -56,7 +59,8 @@ public class Film {
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    public Film(){}
+    public Film() {
+    }
 
     public Film(Integer id, String title, Integer duration, String plot, LocalDate dateOfPublication) {
         this.id = id;
