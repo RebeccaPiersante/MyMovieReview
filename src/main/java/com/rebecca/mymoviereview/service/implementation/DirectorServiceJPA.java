@@ -56,4 +56,9 @@ public class DirectorServiceJPA implements DirectorService {
         create.setId(null);
         return repository.save(create);
     }
+
+    @Override
+    public Optional<Director> findByFirstnameIgnoreCaseAndLastnameIgnoreCase(String firstname, String lastname) {
+        return repository.findByFirstnameIgnoreCaseAndLastnameIgnoreCase(firstname, lastname);
+    }
 }
