@@ -6,10 +6,10 @@ import com.rebecca.mymoviereview.service.abstraction.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 import static com.rebecca.mymoviereview.dto.FilmDTO.fromEntity;
 
@@ -24,6 +24,44 @@ public class FilmController {
         this.service = service;
     }
 
+    @GetMapping
+    public ResponseEntity<List<FilmDTO>> globalSearch(@RequestParam(required = false) String title,
+                                                      @RequestParam(required = false) String director,
+                                                      @RequestParam(required = false) String genre) {
+
+        List<Film> moviesFound;
+
+        if (title != null && !title.isBlank()) {
+            moviesFound = service.findFilmByTitle(title);
+        } else if (director != null && !director.isBlank()) {
+            moviesFound = service.findByDirector(director);
+        } else if (genre != null && !genre.isBlank()) {
+            moviesFound = service.findByGenre(genre);
+        } else {
+            moviesFound = service.findAllFilm();
+        }
+
+        List<FilmDTO> response = moviesFound.stream().map(FilmDTO::fromEntity).toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findFilmById(@PathVariable int id) {
+        Optional<Film> optionalFilm = service.findFilmById(id);
+        if (optionalFilm.isPresent()) {
+            return ResponseEntity.ok(fromEntity(optionalFilm.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteFilmById(@PathVariable int id) {
+        boolean deleted = service.deleteFilmById(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @PostMapping
     public ResponseEntity<FilmDTO> createFilm(@RequestBody FilmDTO dto) {
@@ -32,5 +70,19 @@ public class FilmController {
         FilmDTO response = fromEntity(create);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateFilm(@PathVariable int id, @RequestBody FilmDTO filmDTO) {
+        if (filmDTO.getId() == null || filmDTO.getId() != id) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Film film = filmDTO.toEntity();
+        boolean update = service.updateFilm(id, film);
+        if (update) {
+            return ResponseEntity.ok(fromEntity(film));
+        }
+        return ResponseEntity.notFound().build();
     }
 }
