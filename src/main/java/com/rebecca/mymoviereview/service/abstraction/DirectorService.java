@@ -18,5 +18,11 @@ public interface DirectorService {
 
     Director createDirector(Director create);
 
+    List<Director> findByLastnameContainingIgnoreCase(String lastname);
+
+    List<Director> findByFirstnameContainingIgnoreCaseAndLastnameContainingIgnoreCase(String firstname, String lastname);
+
+    List<Director> findByFirstnameContainingIgnoreCase(String firstname);
+
     Optional<Director> findByFirstnameIgnoreCaseAndLastnameIgnoreCase(String firstname, String lastname);
 }
