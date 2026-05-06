@@ -11,7 +11,7 @@ public class FilmDTO {
 
     private Integer id;
     private String title;
-    private int duration;
+    private Integer duration;
     private String plot;
     private LocalDate dateOfPublication;
 
@@ -21,7 +21,7 @@ public class FilmDTO {
     public FilmDTO() {
     }
 
-    public FilmDTO(Integer id, String title, int duration, String plot, LocalDate dateOfPublication,
+    public FilmDTO(Integer id, String title, Integer duration, String plot, LocalDate dateOfPublication,
                    List<Director> directors, List<Genre> genres) {
         this.id = id;
         this.title = title;
@@ -62,11 +62,11 @@ public class FilmDTO {
         this.title = title;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

@@ -1,6 +1,8 @@
 package com.rebecca.mymoviereview.service.implementation;
 
+import com.rebecca.mymoviereview.model.Film;
 import com.rebecca.mymoviereview.model.Review;
+import com.rebecca.mymoviereview.repository.FilmRepository;
 import com.rebecca.mymoviereview.repository.ReviewRepository;
 import com.rebecca.mymoviereview.service.abstraction.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class ReviewServiceJPA implements ReviewService {
 
     private final ReviewRepository repository;
+    private final FilmRepository filmRepository;
 
     @Autowired
-    public ReviewServiceJPA(ReviewRepository repository){
+    public ReviewServiceJPA(ReviewRepository repository, FilmRepository filmRepository){
         this.repository = repository;
+        this.filmRepository = filmRepository;
     }
 
     @Override
@@ -50,10 +54,25 @@ public class ReviewServiceJPA implements ReviewService {
         return false;
     }
 
+    /*
+    controllo che il film esista nel DB tramite findById(Film) se esiste collego la review al film
+    e salvo la review altrimenti, se il film non esiste, restituisco null
+     */
     @Override
     @Transactional
     public Review createReview(Review create) {
-        create.setId(null);
-        return repository.save(create);
+        if (create.getFilm() == null || create.getFilm().getId() == null) {
+            return null;
+        }
+
+        Optional<Film> filmOptional = filmRepository.findById(create.getFilm().getId());
+
+        if (filmOptional.isPresent()) {
+            create.setFilm(filmOptional.get());
+            create.setId(null);
+            return repository.save(create);
+        }
+
+        return null;
     }
 }

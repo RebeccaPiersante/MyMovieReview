@@ -1,7 +1,6 @@
 package com.rebecca.mymoviereview.service.abstraction;
 
 import com.rebecca.mymoviereview.model.Film;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
