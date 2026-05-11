@@ -67,6 +67,9 @@ public class FilmController {
     public ResponseEntity<FilmDTO> createFilm(@RequestBody FilmDTO dto) {
         Film film = dto.toEntity();
         Film create = service.createFilm(film);
+        if(create == null) {
+            return ResponseEntity.badRequest().build();
+        }
         FilmDTO response = fromEntity(create);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 

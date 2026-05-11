@@ -60,11 +60,16 @@ public class FilmServiceJPA implements FilmService {
     Creazione di un nuovo film e la validazione dei registi associati.
     Prima di procede alla creazione di un nuoco regista vengono effettuati controlli:
     se ha un ID viene recuperato dal db altrimenti viene cercato tramite nome e cognome
-    per evitare che ci siano duplicati
+    per evitare che ci siano duplicati.
+    Controllo sui generi associati al Film: se la lista esiste, se ha almeno un elemento e al massimo 3
     */
     @Override
     @Transactional
     public Film createFilm(Film createFilm) {
+
+        if(createFilm.getGenres() == null || createFilm.getGenres().isEmpty() || createFilm.getGenres().size() > 3) {
+            return null;
+        }
 
         List<Director> exists = new ArrayList<>();
 
