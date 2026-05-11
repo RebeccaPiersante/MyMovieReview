@@ -93,13 +93,17 @@ CREATE TABLE film_genres(
 
 ## STATO DEL PROGETTO
 
-***in fase di sviluppo***
+***Backend completato***
 
 Attualmente implementato:
 
 - Setup progetto
 - Configurazione database
 - Mapping ORM
+- Business Logic: gestione dei registi per evitare duplicati in fase di creazione del film e validazione del numero di generi per film (Min 1, Max 3).
+- DTO
+- Endpoint REST
+
 
 ### Miglioramenti Previsti:
 **Interfaccia Frontend:** Sviluppo di una UI semplice e funzionale utilizzando esclusivamente **HTML, CSS e JavaScript**.
